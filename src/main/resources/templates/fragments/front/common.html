@@ -1,0 +1,110 @@
+<!doctype html>
+<html 
+lang="ja"
+xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="landingHead">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="#">
+    <meta name="keywords" content="">
+    <title>#</title>
+    <link rel="shortcut icon" type="image/ico" href="#">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://use.typekit.net/pze2kdz.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <link href="/front/view/asset/style.css" rel="stylesheet">
+    <link href="/front/view/asset/default.css" rel="stylesheet">
+    <link href="/front/view/asset/ow.css" rel="stylesheet">
+    <link href="/front/view/asset/home.css" rel="stylesheet">
+    <link href="/front/view/asset/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/front/js/jqueryplugin/remodal/1.1.1/remodal.css">
+    <link rel="stylesheet" href="/front/js/jqueryplugin/remodal/1.1.1/remodal-default-theme.css">
+    <link rel="stylesheet" href="/front/view/asset/detail.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* 기본 폼 스타일 */
+        .landing_form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: transparent;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .landing_label {
+            font-weight: bold;
+            font-size: 14px;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .landing_input,
+        .landing_select,
+        .landing_textarea {
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+        }
+
+        .landing_input:focus,
+        .landing_select:focus,
+        .landing_textarea:focus {
+            border-color: #80bdff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+        }
+
+        .landing_textarea {
+            height: 100px;
+        }
+
+        .landing_submit {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .landing_submit:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 간격 조정 */
+        .landing_form .row {
+            margin-bottom: 15px;
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 576px) {
+            .landing_form {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<th:block th:fragment="landingScript">
+    <script src="/front/js/jquery/3.7.1/jquery.min.js" defer></script>
+    <script src="/front/js/jqueryplugin/remodal/1.1.1/remodal.min.js" defer></script>
+    <script src="/front/view/asset/script.js" defer></script>
+
+    <script src="/front/view/asset/jquery.min.js"></script>
+    <script src="/front/view/asset/swiper-bundle.min.js"></script>
+    <script src="/front/view/asset/slick.min.js"></script>
+    <script src="/front/view/asset/fixHeight.js"></script>
+    <script src="/front/view/asset/detail.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</th:block>
+</body>
+
+</html>

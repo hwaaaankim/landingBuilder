@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Inquiry Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .field-row {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Custom Inquiry Form</h2>
+    <div class="btn-group mb-4">
+        <button id="addTextInput" class="btn btn-primary">Add Text Input</button>
+        <button id="addDateInput" class="btn btn-secondary">Add Date Input</button>
+        <button id="addSelectInput" class="btn btn-success">Add Select Input</button>
+        <button id="addTextarea" class="btn btn-info">Add Textarea</button>
+    </div>
+    <form id="customForm">
+        <div id="fieldsContainer"></div>
+        <input type="hidden" name="urlSlug" th:value="${company.urlSlug}">
+        <button type="submit" class="btn btn-primary mt-4">Submit</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script th:inline="javascript">
+	const urlSlug = /*[[${company.urlSlug}]]*/ 'default';
+</script>
+
+<script>
+    let fieldId = 0; // Unique ID for each field
+
+    const fieldsContainer = document.getElementById('fieldsContainer');
+
+    // Add Text Input
+    document.getElementById('addTextInput').addEventListener('click', () => {
+        const row = createFieldRow(`
+            <label for="textLabel_${fieldId}">What to ask</label>
+            <input type="text" id="textLabel_${fieldId}" name="field_text_label_${fieldId}" class="form-control mb-2" placeholder="Enter label">
+            <label for="textPlaceholder_${fieldId}">Placeholder</label>
+            <input type="text" id="textPlaceholder_${fieldId}" name="field_text_placeholder_${fieldId}" class="form-control" placeholder="Enter placeholder">
+        `);
+        fieldsContainer.appendChild(row);
+        fieldId++;
+    });
+
+    // Add Date Input
+    document.getElementById('addDateInput').addEventListener('click', () => {
+        const row = createFieldRow(`
+            <label for="dateLabel_${fieldId}">What to ask</label>
+            <input type="text" id="dateLabel_${fieldId}" name="field_date_label_${fieldId}" class="form-control" placeholder="Enter label">
+        `);
+        fieldsContainer.appendChild(row);
+        fieldId++;
+    });
+
+    // Add Select Input
+    document.getElementById('addSelectInput').addEventListener('click', () => {
+	    const optionsContainerId = `optionsContainer_${fieldId}`;
+	    const row = createFieldRow(`
+	        <label for="selectLabel_${fieldId}">What to ask</label>
+	        <input type="text" id="selectLabel_${fieldId}" name="field_select_label_${fieldId}" class="form-control mb-2" placeholder="Enter label">
+	        <div class="mt-2 optionsContainer" id="${optionsContainerId}"></div>
+	        <button type="button" class="btn btn-sm btn-secondary mt-2 add-option-btn" data-target="${optionsContainerId}">+ Add Option</button>
+	    `);
+	    fieldsContainer.appendChild(row);
+	
+	    // Add event listener for adding options
+	    row.querySelector('.add-option-btn').addEventListener('click', function () {
+	        const optionsContainer = document.getElementById(optionsContainerId);
+	        const optionRow = document.createElement('div');
+	        optionRow.classList.add('d-flex', 'mb-2');
+	        optionRow.innerHTML = `
+	            <input type="text" class="form-control me-2" placeholder="Enter option value">
+	            <button type="button" class="btn btn-danger btn-sm remove-option-btn">-</button>
+	        `;
+	        optionsContainer.appendChild(optionRow);
+	
+	        // Remove option event
+	        optionRow.querySelector('.remove-option-btn').addEventListener('click', function () {
+	            optionsContainer.removeChild(optionRow);
+	        });
+	    });
+	
+	    fieldId++;
+	});
+
+    // Add Textarea
+    document.getElementById('addTextarea').addEventListener('click', () => {
+        const row = createFieldRow(`
+            <label for="textareaLabel_${fieldId}">What to ask</label>
+            <input type="text" id="textareaLabel_${fieldId}" name="field_textarea_label_${fieldId}" class="form-control mb-2" placeholder="Enter label">
+            <label for="textareaPlaceholder_${fieldId}">Placeholder</label>
+            <input type="text" id="textareaPlaceholder_${fieldId}" name="field_textarea_placeholder_${fieldId}" class="form-control" placeholder="Enter placeholder">
+        `);
+        fieldsContainer.appendChild(row);
+        fieldId++;
+    });
+
+    // Helper to create a field row
+    function createFieldRow(innerHtml) {
+        const row = document.createElement('div');
+        row.classList.add('field-row');
+        row.innerHTML = `
+            <div class="d-flex align-items-start">
+                <div class="flex-grow-1">
+                    ${innerHtml}
+                </div>
+                <button type="button" class="btn btn-danger btn-sm ms-2 remove-btn">-</button>
+            </div>
+        `;
+
+        // Remove field row event
+        row.querySelector('.remove-btn').addEventListener('click', function () {
+            fieldsContainer.removeChild(row);
+        });
+
+        return row;
+    }
+    document.getElementById('customForm').addEventListener('submit', function (event) {
+	    event.preventDefault(); // Prevent default form submission
+	
+	    const fields = [];
+	    const rows = document.querySelectorAll('#fieldsContainer .field-row');
+	
+	    rows.forEach(row => {
+	        const inputLabel = row.querySelector('input[name*="label"]'); // "What to ask" 항목
+	        const inputPlaceholder = row.querySelector('input[name*="placeholder"]'); // Placeholder 항목
+	        const optionsContainer = row.querySelector('.optionsContainer'); // Select 옵션 컨테이너
+	
+	        const field = {
+	            fieldName: inputLabel?.value.trim() || '',
+	            placeholder: inputPlaceholder?.value.trim() || '',
+	            fieldType: '',
+	            isRequired: false,
+	            options: []
+	        };
+	
+	        // Field Type 결정
+	        if (row.querySelector('input[name*="text_label"]')) {
+	            field.fieldType = 'TEXT';
+	        } else if (row.querySelector('input[name*="date_label"]')) {
+	            field.fieldType = 'DATE';
+	        } else if (row.querySelector('input[name*="textarea_label"]')) {
+	            field.fieldType = 'TEXTAREA';
+	        } else if (row.querySelector('input[name*="select_label"]')) {
+	            field.fieldType = 'SELECT';
+	        }
+	
+	        // Select 옵션 수집
+	        if (field.fieldType === 'SELECT' && optionsContainer) {
+	            const optionInputs = optionsContainer.querySelectorAll('input[type="text"]');
+	            optionInputs.forEach(optionInput => {
+	                if (optionInput.value.trim()) {
+	                    field.options.push(optionInput.value.trim());
+	                }
+	            });
+	        }
+	
+	        fields.push(field);
+	    });
+	
+	    const data = {
+	        urlSlug: urlSlug,
+	        formFields: fields
+	    };
+	
+	    // 데이터 서버 전송
+	    fetch('/inquiryCustomSubmit', {
+	        method: 'POST',
+	        headers: { 'Content-Type': 'application/json' },
+	        body: JSON.stringify(data),
+	    })
+	        .then(response => {
+	            if (response.ok) {
+	                alert('Form fields saved successfully!');
+	            } else {
+	                alert('Failed to save form fields.');
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error:', error);
+	        });
+	});
+
+</script>
+</body>
+</html>

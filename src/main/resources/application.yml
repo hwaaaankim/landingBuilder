@@ -1,0 +1,55 @@
+server:
+  port: 8080
+
+# 공통 설정
+spring:
+  application:
+    name: LandingBuilder
+  profiles:
+    active: test
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      connectionTimeout: 30000
+      maximumPoolSize: 10
+      maxLifetime: 1800000
+      idleTimeout: 600000
+      poolName: HikariCP
+      readOnly: false
+      connectionTestQuery: SELECT 1
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+  servlet:
+    multipart:
+      maxFileSize: 100MB
+      maxRequestSize: -1
+
+# 프로파일별 설정
+# 로컬 환경
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:mariadb://localhost:3306/landingbuilder?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul&autoReconnect=true
+    username: root
+    password: ghksrka3849!
+upload:
+  path: D:/upload
+
+# 배포 환경
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:mariadb://localhost:3306/teriwoo321?useUnicode=true&characterEncoding=utf8
+    username: teriwoo321
+    password: ghksrka9274!
+upload:
+  path: /home/hosting_users/teriwoo321/tomcat/webapps/upload

@@ -1,0 +1,132 @@
+@charset "UTF-8";
+html {
+  scroll-behavior: smooth;
+}
+:root {
+  --swiper-theme-color: #00803a;
+}
+@media (max-width: 991px) {
+  .header-member {
+    display: none !important;
+  }
+}
+.accordion-item__head {
+  background-color: unset;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: unset;
+  line-height: unset;
+}
+.global-navi {
+  height: calc(100vh - 4.2rem);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  top: 4.2rem;
+}
+.global-navi__wrap {
+  margin-inline: auto;
+  max-width: 400px;
+  min-height: 100%;
+  text-align: center;
+}
+.global-navi::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 375px) {
+  .global-navi__wrap {
+    justify-content: center;
+  }
+}
+@media (max-width: 767px) {
+  .global-navi__wrap {
+    height: auto;
+  }
+}
+@media (min-width: 992px) {
+  .global-navi__wrap {
+    padding: 20px;
+  }
+  .wrapper {
+    z-index: 1000;
+  }
+}
+.c-list__block--menu .accordion-item:not(:last-child) {
+  margin: 0;
+}
+.c-list__block--menu .accordion-item__head {
+  background-color: unset;
+  border-radius: 0;
+  font-size: unset;
+  font-weight: unset;
+  line-height: unset;
+  position: static;
+}
+.c-list__block--menu .accordion-item__head::after {
+  position: static;
+}
+.c-list__block--menu .accordion-item.is-open .accordion-item__head::after {
+  transform: unset;
+}
+.footer-menu {
+  padding: 0 1rem;
+}
+.footer-menu ul li {
+  border: none;
+  position: static;
+}
+.footer-menu ul li a {
+  display: flex;
+  border-bottom: 1px solid #fff;
+  padding: 0.5rem 1rem;
+}
+.footer-menu ul li::after {
+  content: none;
+}
+.footer-menu .c-list__block--sns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-menu .c-list__box--sns {
+  padding: 0;
+}
+.footer-menu .c-list__item--sns {
+  border: none;
+  padding: 0;
+  width: 3rem;
+}
+.footer-menu .c-list__item--menu {
+  display: flex;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+}
+.footer-menu .c-list__txt--menu {
+  padding: 0.5rem 2rem;
+}
+.footer-menu .footer-link {
+  padding: 1.96rem 0;
+}
+.footer-menu .footer-link a:last-child::after {
+  content: none;
+}
+.accordion-item__head {
+  line-height: unset;
+}
+.news-list {
+  border: none;
+}
+.img_trimming {
+  max-height: 18rem;
+  overflow: hidden;
+}
+.img_trimming_short {
+  max-height: 2rem;
+  object-fit: cover;
+  object-position: bottom;
+  overflow: hidden;
+  width: 100%;
+}
+.p-lineup .lineup-list {
+  margin-bottom: 2rem !important;
+}

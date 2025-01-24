@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="${company.name} + ' Form'">Company Form</title>
+</head>
+<body>
+    <h1 th:text="${company.name}">Company Name</h1>
+    <p th:text="'Address: ' + ${company.address}">Address</p>
+    <p th:text="'Homepage: ' + ${company.homepageUrl}">Homepage</p>
+
+    <!-- Slide Images -->
+    <h2>Slide Images</h2>
+    <div>
+        <ul>
+            <li th:each="slideImage : ${company.slideImages}">
+                <img th:src="${slideImage.publicUrl}" th:alt="'Slide ' + ${slideImage.displayOrder}" />
+            </li>
+            <li>
+                <img th:src="${company.logoImageRoad}"/>
+            </li>
+            <li>
+                <img th:src="${company.mainImageRoad}"/>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Form Fields -->
+    <h2>Form</h2>
+    <form action="/submit" method="post">
+	    <div th:each="formField : ${formFields}">
+	        <!-- 필드 제목 -->
+	        <div>
+	            <label th:if="${formField.placeholder != null}" 
+	                   th:for="${formField.fieldName}" 
+	                   th:text="${formField.placeholder}"></label>
+	        </div>
+	
+	        <!-- 필드 렌더링 -->
+	        <div th:switch="${formField.fieldType.name()}">
+	            <!-- Text Input -->
+	            <div th:case="'TEXT'">
+	                <input type="text" 
+	                       th:id="${formField.fieldName}" 
+	                       th:name="${formField.fieldName}" 
+	                       placeholder="Enter text here" />
+	            </div>
+	
+	            <!-- Date Input -->
+	            <div th:case="'DATE'">
+	                <input type="date" 
+	                       th:id="${formField.fieldName}" 
+	                       th:name="${formField.fieldName}" />
+	            </div>
+	
+	            <!-- Textarea -->
+	            <div th:case="'TEXTAREA'">
+	                <textarea th:id="${formField.fieldName}" 
+	                          th:name="${formField.fieldName}" 
+	                          placeholder="Enter details here"></textarea>
+	            </div>
+	
+	            <!-- Select -->
+	            <div th:case="'SELECT'">
+	                <select th:id="${formField.fieldName}" 
+	                        th:name="${formField.fieldName}">
+	                    <option th:each="option : ${formField.selectOptions}" 
+	                            th:value="${option.optionValue}" 
+	                            th:text="${option.optionValue}"></option>
+	                </select>
+	            </div>
+	
+	            <!-- 기타 필드 -->
+	            <div th:case="*">
+	                <p>Unknown field type: <span th:text="${formField.fieldType}"></span></p>
+	            </div>
+	        </div>
+	    </div>
+	
+	    <!-- 제출 버튼 -->
+	    <button type="submit">Submit</button>
+	</form>
+
+
+</body>
+</html>
