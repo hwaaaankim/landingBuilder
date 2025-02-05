@@ -1,8 +1,10 @@
 package com.dev.LandingBuilder.controller.client;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.codec.EncoderException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dev.LandingBuilder.model.client.Company;
+import com.dev.LandingBuilder.repository.CompanyRepository;
+import com.dev.LandingBuilder.service.SMSService;
 import com.dev.LandingBuilder.service.client.CompanyService;
 import com.dev.LandingBuilder.service.client.FormFieldService;
 import com.dev.LandingBuilder.service.client.InquiryService;
@@ -22,6 +27,9 @@ public class IndexController {
 
 	@Autowired
     private CompanyService companyService;
+	
+	@Autowired
+	private CompanyRepository companyRepository;
 
     @Autowired
     private FormFieldService formFieldService;
@@ -32,29 +40,33 @@ public class IndexController {
     @Autowired
     private InquiryService inquiryService;
 	
+    @Autowired
+    private SMSService smsService;
+    
 	@GetMapping({"/", "", "/index"})
-	public String index() {
+	public String index(
+			Model model
+			) {
 		
+		model.addAttribute("company", companyRepository.findAll());
 		return "front/index";
 	}
 	
 	@GetMapping("/{slugUrl}")
-	public String slugUrl(@PathVariable("slugUrl") String slugUrl, Model model) {
-		
-		
-		
-	    // 1. 회사 정보 조회
-//	    Company company = companyService.getCompanyByUrlSlug(slugUrl)
-//	            .orElseThrow(() -> new RuntimeException("Company not found with URL slug: " + slugUrl));
-//	    System.out.println("=== 회사 정보 ===");
-//	    System.out.println("회사 이름: " + company.getName());
-//	    System.out.println("회사 URL 슬러그: " + company.getUrlSlug());
-//	    System.out.println("================");
-		Optional<Company> optionalCompany = companyService.getCompanyByUrlSlug(slugUrl);
+	public String slugUrl(
+			@PathVariable("slugUrl") String slugUrl,
+			Model model) {
 
+		Optional<Company> optionalCompany = companyService.getCompanyByUrlSlug(slugUrl);
+	
+		List<String> reservedUrls = List.of("admin", "manager", "dashboard");
+		if (reservedUrls.contains(slugUrl.toLowerCase())) {
+	        return "redirect:/" + slugUrl;
+	    }
+		
 	    if (optionalCompany.isEmpty()) {
 	        // 회사 정보가 없으면 "front/index" 반환
-	        return "front/index";
+	        return "redirect:/";
 	    }
 	    // 2. 폼 필드 조회
 	    var formFields = formFieldService.getFormFieldsByCompanyId(optionalCompany.get().getId());
@@ -66,25 +78,6 @@ public class IndexController {
 	        return formField;
 	    }).toList();
 
-	    // 디버깅 출력
-//	    System.out.println("=== 폼 필드 정보 ===");
-//	    for (FormField formField : formFieldsWithOptions) {
-//	        System.out.println("폼 타입: " + formField.getFieldType());
-//	        System.out.println("폼의 질문 문구: " + formField.getFieldName());
-//	        if (formField.getPlaceholder() != null) {
-//	            System.out.println("폼의 플레이스 홀더: " + formField.getPlaceholder());
-//	        }
-//	        if (formField.getFieldType() == FieldType.SELECT) {
-//	            System.out.println("폼 타입: SELECT");
-//	            int optionNumber = 1;
-//	            for (SelectOption option : formField.getSelectOptions()) {
-//	                System.out.println("셀렉트 옵션 " + optionNumber + ": " + option.getOptionValue());
-//	                optionNumber++;
-//	            }
-//	        }
-//	        System.out.println("--------------------");
-//	    }
-
 	    // 4. 모델에 데이터 추가
 	    model.addAttribute("company", optionalCompany.get());
 	    model.addAttribute("formFields", formFieldsWithOptions);
@@ -94,14 +87,55 @@ public class IndexController {
 	}
 	
 	@PostMapping("/inquiryInsert")
-	public String insertInquiry(@RequestParam Map<String, String> formData) {
-	    try {
-	        inquiryService.saveInquiry(formData);
-	        return "front/index";
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return "front/index";
-	    }
+	@ResponseBody
+	public String insertInquiry(@RequestParam Map<String, String> formData) throws EncoderException {
+	    
+	    String url = companyRepository.findById(Long.parseLong(formData.get("companyId")))
+	                                  .map(Company::getUrlSlug)
+	                                  .orElse("/");
+	    
+	    smsService.sendMessage("010-7508-3197", companyRepository.findById(Long.parseLong(formData.get("companyId"))).get().getName()
+	    		+ " 업체의 KBT HUB 디비 들어왔습니다.");
+
+	    String msg = "申し込み頂きありがとうこざいます。担当のものが確認後、折り返しご連絡させて頂きます。";
+	    inquiryService.saveInquiry(formData);
+	    
+	    // JavaScript에서 깨지지 않도록 안전하게 변환
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("<script>");
+	    sb.append("alert('" + msg + "');");
+	    sb.append("location.href='/" + url + "';");
+	    sb.append("</script>");
+
+	    return sb.toString();
 	}
+	
+
+//	@PostMapping("/inquiryInsert")
+//	@ResponseBody
+//	public String insertInquiry(
+//			@RequestParam Map<String, String> formData
+//			) throws EncoderException {
+//		
+//		String url = companyRepository.findById(Long.parseLong(formData.get("companyId"))).get().getUrlSlug();
+//		smsService.sendMessage("010-7508-3197", url + "주소로 KBT HUB 디비 들어왔습니다.");
+//		String msg = "";
+//		
+//		inquiryService.saveInquiry(formData);
+//		msg = "申し込み頂きありがとうこざいます。担当のものが確認後、折り返しご連絡させて頂きます。";
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("alert('"+msg+"');");
+//		sb.append("location.href='/'" + url);
+//		sb.insert(0, "<script>");
+//		sb.append("</script>");
+//		return sb.toString();
+//	    try {
+//	        inquiryService.saveInquiry(formData);
+//	        return "redirect:/" + url;
+//	    } catch (Exception e) {
+//	        e.printStackTrace();
+//	        return "redirect:/" + url;
+//	    }
+//	}
 
 }

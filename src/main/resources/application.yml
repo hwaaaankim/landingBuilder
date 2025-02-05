@@ -6,7 +6,7 @@ spring:
   application:
     name: LandingBuilder
   profiles:
-    active: test
+    active: prod
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     hikari:
@@ -28,7 +28,7 @@ spring:
       maxRequestSize: -1
 
 # 프로파일별 설정
-# 로컬 환경
+# 로컬 환경 - 윈도우
 ---
 spring:
   config:
@@ -41,6 +41,19 @@ spring:
 upload:
   path: D:/upload
 
+# 로컬 환경 - 맥
+---
+spring:
+  config:
+    activate:
+      on-profile: test-mac
+  datasource:
+    url: jdbc:mariadb://localhost:3306/landingbuilder?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul&autoReconnect=true
+    username: root
+    password: ghksrka3849!
+upload:
+  path: /Users/yourusername/upload
+
 # 배포 환경
 ---
 spring:
@@ -48,8 +61,8 @@ spring:
     activate:
       on-profile: prod
   datasource:
-    url: jdbc:mariadb://localhost:3306/teriwoo321?useUnicode=true&characterEncoding=utf8
-    username: teriwoo321
+    url: jdbc:mariadb://localhost:3306/teriwoo202502?useUnicode=true&characterEncoding=utf8
+    username: teriwoo202502
     password: ghksrka9274!
 upload:
-  path: /home/hosting_users/teriwoo321/tomcat/webapps/upload
+  path: /home/hosting_users/teriwoo202502/tomcat/webapps/upload

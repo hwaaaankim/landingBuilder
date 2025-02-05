@@ -29,6 +29,12 @@ public class Inquiry {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
+    
+    @Column(name="sign")
+    private Boolean sign;
+    
+    @Column(name="comment")
+    private String comment;
 
     @OneToMany(mappedBy = "inquiry", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InquiryData> inquiryData;

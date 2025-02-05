@@ -52,6 +52,18 @@ public class Company {
 
     @Column(name = "main_image_road")
     private String mainImageRoad; // 로드 경로
+    
+    @Column(name = "left_image_path")
+    private String leftImagePath; // 실제 저장 경로
+
+    @Column(name = "left_image_road")
+    private String leftImageRoad; // 로드 경로
+    
+    @Column(name = "right_image_path")
+    private String rightImagePath; // 실제 저장 경로
+
+    @Column(name = "right_image_road")
+    private String rightImageRoad; // 로드 경로
 
     @Column(name = "homepage_url")
     private String homepageUrl;

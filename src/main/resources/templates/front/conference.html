@@ -3,7 +3,7 @@
 lang="ja"
 xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/front/common :: landingHead"></head>
+<head th:replace="fragments/front/common :: landingHead(${company.name})"></head>
 
 <body>
     <header class="p-header">
@@ -20,16 +20,15 @@ xmlns:th="http://www.thymeleaf.org">
     <div class="header-other">
         <nav class="p-other-nav">
             <a th:href="@{${company.homepageUrl}}" class="p-other-nav__contact">
-
-                アプリダウンロード
+              	LINE
             </a>
             <a th:href="@{${company.snsUrl}}" class="p-other-nav__contact">
 
-                アプリダウンロード
+                INSTAGRAM
             </a>
             <a th:href="@{${company.mapUrl}}" class="p-other-nav__contact">
 
-                アプリダウンロード
+                X
             </a>
         </nav>
     </div>

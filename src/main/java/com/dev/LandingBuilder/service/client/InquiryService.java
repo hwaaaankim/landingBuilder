@@ -41,6 +41,20 @@ public class InquiryService {
         return inquiryRepository.save(inquiry);
     }
 
+    public void updateInquiry(
+    		Long id,
+    		String comment,
+    		Boolean sign
+    		) {
+    	inquiryRepository.findById(id).ifPresent(
+			i -> {
+				i.setComment(comment);
+				i.setSign(sign);
+				inquiryRepository.save(i);
+			}
+		);
+    }
+    
     public List<Inquiry> getInquiriesByCompanyId(Long companyId) {
         return inquiryRepository.findAllByCompany_Id(companyId);
     }

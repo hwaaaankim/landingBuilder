@@ -50,13 +50,13 @@ public class WebSecurityConfig {
 						.frameOptions(frameOptionConfig -> frameOptionConfig.disable()))
 			.authorizeHttpRequests((authorizeReqeust) -> 
 				authorizeReqeust
-					.requestMatchers(adminUrls).hasAuthority("ROLE_ADMIN")
+					.requestMatchers(adminUrls).hasAnyAuthority("ROLE_ADMIN", "ROLE_GUEST")
 					.requestMatchers(visitorUrls).permitAll()
 					.anyRequest().permitAll()					
 			)
 			.formLogin((formLogin) -> 
 				formLogin
-					.defaultSuccessUrl("/admin/clientManager", false)
+					.defaultSuccessUrl("/admin/insertClientForm", false)
 			)
 			.logout((logout) ->
 				logout

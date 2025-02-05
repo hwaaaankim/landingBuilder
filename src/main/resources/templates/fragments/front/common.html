@@ -1,9 +1,8 @@
 <!doctype html>
 <html 
-lang="ja"
 xmlns:th="http://www.thymeleaf.org">
 
-<head th:fragment="landingHead">
+<head th:fragment="landingHead(title)">
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +10,7 @@ xmlns:th="http://www.thymeleaf.org">
     <meta name="format-detection" content="telephone=no">
     <meta name="description" content="#">
     <meta name="keywords" content="">
-    <title>#</title>
+    <title th:text="${title}"></title>
     <link rel="shortcut icon" type="image/ico" href="#">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
