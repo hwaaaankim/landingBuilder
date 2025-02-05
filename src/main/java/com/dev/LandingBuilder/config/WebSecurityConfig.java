@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.dev.LandingBuilder.handler.CustomLoginSuccessHandler;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -41,32 +43,38 @@ public class WebSecurityConfig {
     }
 	
 	@Bean
-	SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+	SecurityFilterChain filterChain(HttpSecurity http, CustomLoginSuccessHandler customLoginSuccessHandler) throws Exception{
 		
-		http.csrf((csrfConfig) -> 
-				csrfConfig.disable())
-			.headers((headerConfig) -> 
-					headerConfig
-						.frameOptions(frameOptionConfig -> frameOptionConfig.disable()))
-			.authorizeHttpRequests((authorizeReqeust) -> 
-				authorizeReqeust
-					.requestMatchers(adminUrls).hasAnyAuthority("ROLE_ADMIN", "ROLE_GUEST")
-					.requestMatchers(visitorUrls).permitAll()
-					.anyRequest().permitAll()					
-			)
-			.formLogin((formLogin) -> 
-				formLogin
-					.defaultSuccessUrl("/admin/insertClientForm", false)
-			)
-			.logout((logout) ->
-				logout
-					.logoutUrl("/logout")
-					.deleteCookies("JSESSIONID")
-					.invalidateHttpSession(true)
-					.logoutSuccessUrl("/")
-			);
-		
-		return http.build();
+		http.csrf(csrfConfig -> csrfConfig.disable())
+	        .headers(headerConfig -> 
+	            headerConfig.frameOptions(frameOptionConfig -> frameOptionConfig.disable()))
+	        .authorizeHttpRequests(authorizeRequests -> 
+	            authorizeRequests
+	                // GUEST 유저는 /admin/clientManager, /admin/clientDetail만 접근 가능
+	                .requestMatchers("/admin/clientManager", "/admin/clientDetail/**").hasAuthority("ROLE_GUEST")
+	                
+	                // ADMIN 유저는 모든 /admin/** 접근 가능
+	                .requestMatchers(adminUrls).hasAuthority("ROLE_ADMIN")
+	
+	                // 일반 방문자 URL 허용
+	                .requestMatchers(visitorUrls).permitAll()
+	
+	                // 나머지 모든 요청은 인증 필요 없음
+	                .anyRequest().permitAll()
+	        )
+	        .formLogin(formLogin -> 
+	            formLogin
+	            	.defaultSuccessUrl("/admin/insertClientForm", false)
+	            	.successHandler(customLoginSuccessHandler)	
+	        )
+	        .logout(logout -> 
+	            logout.logoutUrl("/logout")
+	                  .deleteCookies("JSESSIONID")
+	                  .invalidateHttpSession(true)
+	                  .logoutSuccessUrl("/")
+	        );
+	
+	    return http.build();
 			
 	}
 }

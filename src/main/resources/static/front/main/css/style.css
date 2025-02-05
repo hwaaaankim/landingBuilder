@@ -721,3 +721,17 @@ footer a:hover {
 footer .copyright {
   color: rgba(255,255,255,0.75);
 }
+.error-btn{
+	background:black;
+	width:200px;
+	height:50px;
+	margin-top:20px;
+	border:1px solid white;
+	font-size:15px;
+	font-weight:600;
+	text-align: center;
+	transition:all 0.3s ease-in-out;
+}
+.error-btn:hover{
+	background:dimgray;
+}

@@ -29,9 +29,20 @@ public class CompanyService {
 	@Value("${upload.path}")
 	private String uploadPath;
 
-	public Company createCompany(String name, String representativeName, String businessRegistrationNumber,
-			String address, String conferenceAddress, String urlSlug, MultipartFile logoImage, MultipartFile mainImage,
-			MultipartFile leftImage, MultipartFile rightImage, String homepageUrl, String snsUrl, String mapUrl,
+	public Company createCompany(
+			String name, 
+			String representativeName,
+			String businessRegistrationNumber,
+			String address, 
+			String conferenceAddress, 
+			String urlSlug, 
+			MultipartFile logoImage, 
+			MultipartFile mainImage,
+			MultipartFile leftImage, 
+			MultipartFile rightImage, 
+			String homepageUrl, 
+			String snsUrl, 
+			String mapUrl,
 			List<MultipartFile> slideImages) {
 		try {
 			// Define base paths
@@ -72,8 +83,15 @@ public class CompanyService {
 			// Save company in DB
 			Company savedCompany = companyRepository.save(company);
 
-			// Save slide images
-			saveSlideImages(slideImages, savedCompany, slidePath, urlSlug);
+			if (slideImages != null && !slideImages.isEmpty()) {
+	            List<MultipartFile> validSlideImages = slideImages.stream()
+	                    .filter(file -> file != null && !file.isEmpty()) // null 및 빈 파일 제거
+	                    .toList();
+
+	            if (!validSlideImages.isEmpty()) {
+	                saveSlideImages(validSlideImages, savedCompany, slidePath, urlSlug);
+	            }
+	        }
 
 			return savedCompany;
 		} catch (RuntimeException e) {

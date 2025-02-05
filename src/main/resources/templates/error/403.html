@@ -9,7 +9,7 @@ xmlns:th="http://www.thymeleaf.org">
 	<meta name="description" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>HOME</title>
+	<title>403</title>
 	<link rel="shortcut icon" type="image/icon" href="/front/main/images/favicon-16x16.png" />
 	<link rel="stylesheet" href="/front/main/css/style.css">
 	<link rel="stylesheet" href="/front/main/css/responsive.css">
@@ -27,23 +27,9 @@ xmlns:th="http://www.thymeleaf.org">
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
 						<div class="section-heading text-center">
-							<h2>進行中の相談会</h2>
-							<p>進行中の相談会リストです。クリックで詳細ページに移動します。</p>
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="owl-carousel owl-theme project-slick">
-							<div class="item" th:each="c:${company}">
-								<div class="popup-effect" style="height:500px;">
-									<img style="object-fit:cover; object-position:top;"
-									class="img-responsive img-rounded" th:src="@{${c.mainImageRoad}}" alt="">
-									<div class="cover-layer">
-										<h2>[[${c.name}]] 病院相談会</h2>
-										<a class="info" th:href="@{|/${c.urlSlug}|}">ページを移動する</a>
-									</div>
-								</div>
-								<div class="clearfix"></div>
-							</div> 
+							<h2>権限がありません。</h2>
+							<p>このページにアクセスする権限がありません。 下記ボタンをクリックでホーム画面に移動できます。</p>
+							<button class="error-btn" onclick="location.href='/'">ホーム画面に移動</button>
 						</div>
 					</div>
 				</div>

@@ -53,7 +53,7 @@ xmlns:th="http://www.thymeleaf.org">
 
                 <div class="mainvisual-slider js-mainvisual-slider swiper">
                     <div class="swiper-wrapper">
-                        <a class="swiper-slide" th:each="slideImage : ${company.slideImages}">
+                        <a class="swiper-slide" th:each="slideImage : ${company.slideImages}" style="margin-bottom:20px;">
                             <p class="mainvisual-slider__image">
 								<img th:src="${slideImage.publicUrl}" alt="slideImage" >
 							</p>
@@ -112,7 +112,7 @@ xmlns:th="http://www.thymeleaf.org">
 					                <select th:id="${formField.id}" 
 					                        th:name="${formField.id}" 
 					                        class="landing_select form-select col-md-12">
-					                    <option value="" disabled selected>선택하세요</option>
+					                    <option value="" disabled selected>選択してください</option>
 					                    <option th:each="option : ${formField.selectOptions}" 
 					                            th:value="${option.id}" 
 					                            th:text="${option.optionValue}">
@@ -126,7 +126,7 @@ xmlns:th="http://www.thymeleaf.org">
 					    <div class="row">
 							<div class="col-md-12">
 						        <button type="submit" class="landing_submit btn btn-primary col-md-12">
-						            제출하기
+						            提出する
 						        </button>
 					        </div>
 					    </div>
