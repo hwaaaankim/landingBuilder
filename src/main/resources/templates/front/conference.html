@@ -35,17 +35,17 @@ xmlns:th="http://www.thymeleaf.org">
     <div class="header-member">
         <nav class="nav-member">
             <a href="#">
-                <img th:src="${company.logoImageRoad}" alt="Hello Family" >
+                <img th:src="${company.logoImageRoad}" alt="#" >
             </a>
         </nav>
     </div>
     <div class="bg-fix">
         <div class="bg-fix__left"><img
-                src="https://gigaplus.makeshop.jp/hellofamily5/assets/images/common/bg_home_left.png"
-                alt="Hello Family"></div>
+                th:src="${company.leftImageRoad}"
+                alt="#"></div>
         <div class="bg-fix__right"><img
-                src="https://gigaplus.makeshop.jp/hellofamily5/assets/images/common/bg_home_right.png"
-                alt="Hello Family"></div>
+                th:src="${company.rightImageRoad}"
+                alt="#"></div>
     </div>
     <main class="main">
         <div class="wrapper">
@@ -133,7 +133,7 @@ xmlns:th="http://www.thymeleaf.org">
 					</form>
 
                     <div class="footer-bottom">
-                        <p class="logo"><a href="#"><img class="l-footer__img" src="/front/view/image/logosample_white.png"
+                        <p class="logo"><a href="#"><img class="l-footer__img" th:src="${company.logoImageRoad}" 
                                     width="" height="" alt="#"></a></p>
                         <p class="txt">Copyright &#169; QLIX</p>
                     </div>

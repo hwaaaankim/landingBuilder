@@ -33,6 +33,19 @@ spring:
 spring:
   config:
     activate:
+      on-profile: home
+  datasource:
+    url: jdbc:mariadb://kbthub.com:3306/teriwoo202502?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul&autoReconnect=true
+    username: teriwoo202502
+    password: ghksrka9274!
+upload:
+  path: D:/upload
+
+# 로컬 환경 - 윈도우
+---
+spring:
+  config:
+    activate:
       on-profile: test
   datasource:
     url: jdbc:mariadb://localhost:3306/landingbuilder?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Seoul&autoReconnect=true

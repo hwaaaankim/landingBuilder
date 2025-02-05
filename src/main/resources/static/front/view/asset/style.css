@@ -2530,7 +2530,7 @@ input[type="month"].form-control {
 
 .p-other-nav,
 .nav-member {
-  border-top: 1px solid #ffffff;
+  border-top: none;
   border-bottom: 1px solid #ffffff;
   display: flex;
   opacity: 0;
@@ -14986,14 +14986,6 @@ input[type="month"].form-control {
   #chatplusview.closed {
     display: none !important;
   }
-}
-.bg-fix__left {
-  background: url(https://gigaplus.makeshop.jp/hellofamily5/assets/images/common/bg_home_left.png)
-    no-repeat 0 0 / cover;
-}
-.bg-fix__right {
-  background: url(https://gigaplus.makeshop.jp/hellofamily5/assets/images/common/bg_home_right.png)
-    no-repeat right 0 / cover;
 }
 
 /*///////////////////フリーページ//////////////////////*/
