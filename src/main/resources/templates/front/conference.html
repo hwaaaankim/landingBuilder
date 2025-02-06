@@ -12,23 +12,27 @@ xmlns:th="http://www.thymeleaf.org">
         </div>
     </header>
     <nav class="sub-navi">
-        <a th:href="@{${company.homepageUrl}}" class="sn-column">コラム</a>
-        <a th:href="@{${company.snsUrl}}" class="sn-voice">サポート</a>
-        <a th:href="@{${company.mapUrl}}" class="sn-voice">サポート</a>
+        <a th:href="@{${company.homepageUrl}}" class="sn-column">
+			<img src="/front/view/image/line.png" style="width:25px; height:25px;">
+		</a>
+        <a th:href="@{${company.snsUrl}}" class="sn-voice" style="color:#C13584;">
+			<img src="/front/view/image/insta.png" style="width:25px; height:25px;">
+		</a>
+        <a th:href="@{${company.mapUrl}}" class="sn-voice">
+			<img src="/front/view/image/x.jpg" style="width:25px; height:25px;">
+		</a>
     </nav>
 
     <div class="header-other">
         <nav class="p-other-nav">
             <a th:href="@{${company.homepageUrl}}" class="p-other-nav__contact">
-              	LINE
+              	<img src="/front/view/image/line.png" style="width:40px; height:40px;">
             </a>
             <a th:href="@{${company.snsUrl}}" class="p-other-nav__contact">
-
-                INSTAGRAM
+                <img src="/front/view/image/insta.png" style="width:40px; height:40px;">
             </a>
             <a th:href="@{${company.mapUrl}}" class="p-other-nav__contact">
-
-                X
+                <img src="/front/view/image/x.jpg" style="width:40px; height:40px;">
             </a>
         </nav>
     </div>

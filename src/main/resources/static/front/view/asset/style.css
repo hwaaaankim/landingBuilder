@@ -1004,12 +1004,19 @@ img.alignleft {
 .header-other .p-other-nav a {
   color: #000000;
 }
-.header-other .p-other-nav a:not(:hover),
+
 .header-member .nav-member a:not(:hover) {
   color: #fff;
   background-color: #000000;
   border-color: #fff;
 }
+
+.header-other .p-other-nav a:not(:hover) {
+  color: #fff;
+  background-color: #000000;
+  border-color: #ffffff;
+}
+
 .header-member .nav-member a.membership:not(:hover) {
   background-color: #ef5350;
 }
@@ -2531,7 +2538,7 @@ input[type="month"].form-control {
 .p-other-nav,
 .nav-member {
   border-top: none;
-  border-bottom: 1px solid #ffffff;
+  border-bottom: none;
   display: flex;
   opacity: 0;
   visibility: hidden;
@@ -6743,7 +6750,7 @@ input[type="month"].form-control {
   .wrapper {
     border-style: solid;
     border-color: #000000;
-    border-width: 0 4px;
+    border-width: 0 2px;
   }
 
   .d-sm-none {
@@ -14941,9 +14948,7 @@ input[type="month"].form-control {
       no-repeat 1rem 50% / 12%;
   }
   .sub-navi a.sn-column {
-    background: #000000
-      url(https://gigaplus.makeshop.jp/hellofamily5/assets/images/common/icon_column_w.svg)
-      no-repeat 1rem 50% / 12%;
+    background: #000000;
   }
 }
 

@@ -50,15 +50,12 @@ public class WebSecurityConfig {
 	            headerConfig.frameOptions(frameOptionConfig -> frameOptionConfig.disable()))
 	        .authorizeHttpRequests(authorizeRequests -> 
 	            authorizeRequests
-	                // GUEST 유저는 /admin/clientManager, /admin/clientDetail만 접근 가능
-	                .requestMatchers("/admin/clientManager", "/admin/clientDetail/**").hasAuthority("ROLE_GUEST")
-	                
-	                // ADMIN 유저는 모든 /admin/** 접근 가능
-	                .requestMatchers(adminUrls).hasAuthority("ROLE_ADMIN")
-	
+	            	// GUEST 유저는 /admin/clientManager, /admin/clientDetail만 접근 가능
+		            .requestMatchers("/admin/clientManager", "/admin/clientDetail/**").hasAnyAuthority("ROLE_GUEST", "ROLE_ADMIN")
+		            // ADMIN 유저는 모든 /admin/** 접근 가능
+		            .requestMatchers(adminUrls).hasAuthority("ROLE_ADMIN")
 	                // 일반 방문자 URL 허용
 	                .requestMatchers(visitorUrls).permitAll()
-	
 	                // 나머지 모든 요청은 인증 필요 없음
 	                .anyRequest().permitAll()
 	        )
