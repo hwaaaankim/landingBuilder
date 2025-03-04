@@ -11,12 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dev.LandingBuilder.model.client.Client;
 import com.dev.LandingBuilder.model.client.Company;
 import com.dev.LandingBuilder.repository.CompanyRepository;
 import com.dev.LandingBuilder.service.SMSService;
+import com.dev.LandingBuilder.service.client.ClientService;
 import com.dev.LandingBuilder.service.client.CompanyService;
 import com.dev.LandingBuilder.service.client.FormFieldService;
 import com.dev.LandingBuilder.service.client.InquiryService;
@@ -42,6 +45,9 @@ public class IndexController {
 	
     @Autowired
     private SMSService smsService;
+    
+    @Autowired
+    private ClientService clientService;
     
 	@GetMapping({"/", "", "/index"})
 	public String index(
@@ -110,32 +116,21 @@ public class IndexController {
 	    return sb.toString();
 	}
 	
+	@PostMapping("/insert")
+	@ResponseBody
+	public String clientInsert(
+			@RequestBody Client client,
+			Model model
+			) throws EncoderException {
+		
+		smsService.sendMessage("010-7508-3197", "지우의원 어필리에이트 KBT HUB 디비 들어왔습니다.");
+		
+		if(clientService.clientInsert(client)) {
+			return "success";
+		}else {
+			return "fail";
 
-//	@PostMapping("/inquiryInsert")
-//	@ResponseBody
-//	public String insertInquiry(
-//			@RequestParam Map<String, String> formData
-//			) throws EncoderException {
-//		
-//		String url = companyRepository.findById(Long.parseLong(formData.get("companyId"))).get().getUrlSlug();
-//		smsService.sendMessage("010-7508-3197", url + "주소로 KBT HUB 디비 들어왔습니다.");
-//		String msg = "";
-//		
-//		inquiryService.saveInquiry(formData);
-//		msg = "申し込み頂きありがとうこざいます。担当のものが確認後、折り返しご連絡させて頂きます。";
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("alert('"+msg+"');");
-//		sb.append("location.href='/'" + url);
-//		sb.insert(0, "<script>");
-//		sb.append("</script>");
-//		return sb.toString();
-//	    try {
-//	        inquiryService.saveInquiry(formData);
-//	        return "redirect:/" + url;
-//	    } catch (Exception e) {
-//	        e.printStackTrace();
-//	        return "redirect:/" + url;
-//	    }
-//	}
+		}
+	}
 
 }

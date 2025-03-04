@@ -2,7 +2,6 @@ package com.dev.LandingBuilder.service.client;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
@@ -224,16 +223,6 @@ public class CompanyService {
 			return filePath;
 		} catch (IOException e) {
 			throw new RuntimeException("Error while saving file: " + file.getOriginalFilename(), e);
-		}
-	}
-
-	private String saveFile(String directoryPath, File file) {
-		try {
-			String filePath = Paths.get(directoryPath, file.getName()).toString();
-			Files.copy(file.toPath(), Paths.get(filePath));
-			return filePath;
-		} catch (IOException e) {
-			throw new RuntimeException("Error while saving file: " + file.getName(), e);
 		}
 	}
 

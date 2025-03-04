@@ -45,7 +45,9 @@ public class WebSecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http, CustomLoginSuccessHandler customLoginSuccessHandler) throws Exception{
 		
-		http.csrf(csrfConfig -> csrfConfig.disable())
+		
+		http.cors(cors -> cors.configurationSource(new CustomCorsConfiguration().corsConfigurationSource())) // CORS 설정 추가
+			.csrf(csrfConfig -> csrfConfig.disable())
 	        .headers(headerConfig -> 
 	            headerConfig.frameOptions(frameOptionConfig -> frameOptionConfig.disable()))
 	        .authorizeHttpRequests(authorizeRequests -> 
@@ -75,7 +77,6 @@ public class WebSecurityConfig {
 			
 	}
 }
-
 
 
 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <th:block th:replace="fragments/administration/common :: header('고객상세')"></th:block>
+</head>
+
+<body>
+  <section id="container">
+  	<th:block th:replace="fragments/administration/common :: side(${session['name']})"></th:block>
+		<section id="main-content">
+			<section class="wrapper">
+				<h3><i class="fa fa-angle-right"></i> 고객상세</h3>
+				<div class="row mt">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						
+						<form 
+						    class="contact-form php-mail-form" 
+						    role="form" 
+						    th:action="@{/admin/clientUpdate}"
+						    onsubmit="return check();" 
+						    method="POST">
+						    
+						    <div class="form-group">
+						        <h6 class="title">고객 성함</h6>
+						        <input type="text" name="name" class="form-control" th:value="${client.name}" 
+						               th:readonly="${#authorization.expression('hasRole(''ROLE_GUEST'')')}">
+						        <input type="hidden" th:value="${client.id}" name="id">
+						    </div>
+						
+						    <div class="form-group">
+						        <h6 class="title">고객 연락처</h6>
+						        <input type="text" name="phone" class="form-control" th:value="${client.phone}"
+						               th:readonly="${#authorization.expression('hasRole(''ROLE_GUEST'')')}">
+						    </div>
+						
+						    <div class="form-group">
+						        <h6 class="title">고객 이메일</h6>
+						        <input type="text" name="email" class="form-control" th:value="${client.email}"
+						               th:readonly="${#authorization.expression('hasRole(''ROLE_GUEST'')')}">
+						    </div>
+						
+						    <div class="form-group">
+						        <h6 class="title">문의 시간</h6>
+						        <input th:value="${client.inquiryDate}" style="line-height:15px; padding:5px 6px;" 
+						               type="text" id="date" name="inquiryDate" class="form-control" 
+						               disabled>
+						    </div>
+						
+						    <div class="form-group">
+						        <h6 class="title">최근 수정시간</h6>
+						        <input th:value="${client.correctDate}" style="line-height:15px; padding:5px 6px;" 
+						               type="text" name="cdate" id="correctDate" class="form-control" 
+						               disabled>
+						    </div>
+						
+						    <div class="form-group">
+						        <h6 class="title">고객 문의사항</h6>
+						        <textarea class="form-control" name="content" rows="5" th:text="${client.content}"
+						                  th:readonly="${#authorization.expression('hasRole(''ROLE_GUEST'')')}"></textarea>
+						    </div>
+						
+						    <div class="form-send">
+						        <button type="submit" class="btn btn-large btn-primary">확인</button>
+						        <button type="button" class="btn btn-large btn-primary" 
+						                th:onclick="|deleteClient(${client.id})|"
+						                th:disabled="${#authorization.expression('hasRole(''ROLE_GUEST'')')}">삭제</button>
+						    </div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</section>
+	</section>
+  	<th:block th:replace="fragments/administration/common :: script"></th:block>
+	<script th:inline="javascript">
+		var client = /*[[${client}]]*/ 'default';
+		$(function(){
+			$('#date').val(client.date.slice(0, 19));
+			$('#cdate').val(client.cdate.slice(0, 19));
+		});
+	</script>
+	<script>
+	function deleteClient(id){
+		var result = confirm('해당 고객을 삭제 하시겠습니까?');
+		if(result){
+			location.href='/admin/clientDelete/'+id;
+		}
+	}
+	function check(){
+		var result = confirm('변경 사항은 수정됩니다. 진행하시겠습니까?');
+		if(result){
+			return true;		
+		}
+	}
+	</script>
+</body>
+
+</html>

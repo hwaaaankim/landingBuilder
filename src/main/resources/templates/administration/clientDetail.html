@@ -52,9 +52,16 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	            </textarea>
 
 				<!-- TEXT, DATE, SELECT 타입 → input type="text"로 통일 -->
-				<input type="text" class="form-control" th:if="${data.formField.fieldType.name() == 'TEXT' or 
-	                       data.formField.fieldType.name() == 'DATE' or 
-	                       data.formField.fieldType.name() == 'SELECT'}" th:value="${data.fieldValue}" readonly />
+				<input type="text" class="form-control" 
+					th:if="${data.formField.fieldType.name() == 'TEXT' or 
+                   data.formField.fieldType.name() == 'DATE'}" 
+                   th:value="${data.fieldValue}" 
+                   readonly />
+	            <input type="text" 
+		            class="form-control" 
+		            th:if="${data.formField.fieldType.name() == 'SELECT'}" 
+		            th:value="${data.fieldValue}" 
+		            readonly />           
 			</div>
 		</div>
 		<form method="POST" action="/admin/inquiryUpdate">
