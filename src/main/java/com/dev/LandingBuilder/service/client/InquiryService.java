@@ -78,10 +78,17 @@ public class InquiryService {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new RuntimeException("Company not found with ID: " + companyId));
 
-        // 2. Inquiry 생성 및 저장
+        // 2. Inquiry 생성
         Inquiry inquiry = new Inquiry();
         inquiry.setCompany(company);
-        inquiry.setUserId(userId); // ✅ 추가된 부분
+        inquiry.setUserId(userId);
+
+        // ✅ afblpcv 필드가 있으면 세팅
+        if (formData.containsKey("afblpcv")) {
+            inquiry.setAfblpcv(formData.get("afblpcv"));
+        }
+
+        // 먼저 Inquiry 저장 (ID 생성 위해)
         inquiry = inquiryRepository.save(inquiry);
 
         // 3. InquiryData 생성 및 저장
@@ -89,8 +96,8 @@ public class InquiryService {
             String key = entry.getKey();
             String value = entry.getValue();
 
-            // Company ID 필드는 무시
-            if (!key.equals("companyId")) {
+            // 숫자인 키만 InquiryData로 저장 (companyId, afblpcv 등은 무시)
+            if (key.matches("\\d+")) {
                 Long formFieldId = Long.parseLong(key);
 
                 FormField formField = formFieldRepository.findById(formFieldId)
@@ -105,6 +112,5 @@ public class InquiryService {
             }
         }
     }
-
 
 }

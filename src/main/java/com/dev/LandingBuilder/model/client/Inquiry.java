@@ -44,4 +44,7 @@ public class Inquiry {
     
     @Column(name="user_id")
     private String userId;
+    
+    @Column(name="afblpcv")
+    private String afblpcv; 
 }
