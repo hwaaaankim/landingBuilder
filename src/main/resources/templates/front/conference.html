@@ -6,6 +6,15 @@ xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/front/common :: landingHead(${company.name})"></head>
 
 <body>
+	<th:block th:if="${scriptContent != null}" th:utext="${scriptContent}"></th:block>
+	<!-- alertMessage 있을 때만 alert() 실행 -->
+    <script th:if="${alertMessage != null}" th:inline="javascript">
+	    let msg = /*[[${alertMessage}]]*/ "";
+	    alert(msg);
+	</script>
+
+
+
     <header class="p-header">
         <div class="p-header-logo">
             <a href="/"><img th:src="${company.logoImageRoad}" alt="Hello Family" width="150px;"></a>

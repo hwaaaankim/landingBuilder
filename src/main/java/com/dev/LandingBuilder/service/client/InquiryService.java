@@ -68,7 +68,7 @@ public class InquiryService {
     }
     
     @Transactional
-    public void saveInquiry(Map<String, String> formData) {
+    public void saveInquiry(Map<String, String> formData, String userId) {
         if (formData.isEmpty()) {
             throw new IllegalArgumentException("Form data cannot be empty.");
         }
@@ -81,7 +81,8 @@ public class InquiryService {
         // 2. Inquiry 생성 및 저장
         Inquiry inquiry = new Inquiry();
         inquiry.setCompany(company);
-        inquiry = inquiryRepository.save(inquiry); // 저장 후 반환된 객체 사용
+        inquiry.setUserId(userId); // ✅ 추가된 부분
+        inquiry = inquiryRepository.save(inquiry);
 
         // 3. InquiryData 생성 및 저장
         for (Map.Entry<String, String> entry : formData.entrySet()) {
@@ -91,21 +92,19 @@ public class InquiryService {
             // Company ID 필드는 무시
             if (!key.equals("companyId")) {
                 Long formFieldId = Long.parseLong(key);
-                
-                // FormField 조회
+
                 FormField formField = formFieldRepository.findById(formFieldId)
                         .orElseThrow(() -> new RuntimeException("FormField not found with ID: " + formFieldId));
-                System.out.println(formField.getId());
-                System.out.println(inquiry.getId());
-                // InquiryData 생성
+
                 InquiryData inquiryData = new InquiryData();
-                inquiryData.setInquiry(inquiry); // 저장된 Inquiry 사용
+                inquiryData.setInquiry(inquiry);
                 inquiryData.setFormField(formField);
                 inquiryData.setFieldValue(value);
 
-                // InquiryData 저장
                 inquiryDataRepository.save(inquiryData);
             }
         }
     }
+
+
 }

@@ -73,6 +73,12 @@ public class Company {
 
     @Column(name = "map_url")
     private String mapUrl;
+    
+    @Column(name = "script_one", columnDefinition = "TEXT")
+    private String scriptOne;
+
+    @Column(name = "script_two", columnDefinition = "TEXT")
+    private String scriptTwo;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompanySlideImage> slideImages;

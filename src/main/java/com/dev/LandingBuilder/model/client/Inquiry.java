@@ -41,4 +41,7 @@ public class Inquiry {
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+    
+    @Column(name="user_id")
+    private String userId;
 }
